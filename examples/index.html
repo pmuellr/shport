@@ -1,0 +1,25 @@
+<head>
+<title>shport examples</title>
+<link rel="shortcut icon" href="../images/shport.png">
+</head>
+
+<body></body>
+
+<script type="module">
+import { md } from '../shport.js'
+
+const examples = [
+  'vega-lite',
+]
+
+const examplesHtml = examples
+  .map(fn => `- [${fn}](${fn}.html)`)
+  .join('\n')
+
+md(`
+  # shport examples
+
+  ${examplesHtml}
+`)
+
+</script>

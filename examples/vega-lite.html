@@ -1,0 +1,81 @@
+<head>
+<title>using vega-lite with shport</title>
+<link rel="shortcut icon" href="../images/shport.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@3.2.4/dist/inspector.css">
+<script src="https://cdn.jsdelivr.net/npm/vega@5.22.1/build/vega.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0/build/vega-lite.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.8/build/vega-embed.js"></script>
+</head>
+
+<body></body>
+
+<script type="module">
+import { variable, viewOf, md, html } from '../shport.js'
+const vegaEmbed = window.vegaEmbed
+
+md(`
+  # using vega-lite with shport
+  from [Vega-Lite - A Grammar of Interactive Graphics](https://vega.github.io/vega-lite/)
+`)
+
+viewOf(function topic(Inputs) {
+  return Inputs.radio(
+    ['precipitation', 'temp_max', 'temp_min'], 
+    { value: 'precipitation', label: "Topic" }
+  )
+})
+
+variable((md, topic) => {
+  const result = md`chart for ${topic}`
+  return result
+})
+
+variable(
+  /** @type { (vegaLiteSpec: ReturnType<VegaLiteSpec>) => HTMLElement } */
+  function chartSeattleWeather(vegaLiteSpec) {
+    return vegaEmbed.container(vegaLiteSpec)
+  }
+)
+
+md(`------------------------------------------------------------------------`)
+
+html(`<h2>vega lite spec</h2>`)
+
+/** @typedef { (seattleWeather: any, topic: string) => Record<string, any> } VegaLiteSpec */
+/** @type { VegaLiteSpec } */
+variable(
+  function vegaLiteSpec(seattleWeather, topic) {
+    return {
+      title: `${topic} in Seattle`,
+      data: { values: seattleWeather },
+      mark: 'bar',
+      encoding: {
+        x: { timeUnit: 'month', field: 'date', type: 'ordinal' },
+        y: { aggregate: 'mean', field: topic },
+      }
+    }
+  }
+)
+
+md(`## all data available`)
+
+variable(
+  async function data(require) { return await require('vega-datasets@1') }
+)
+
+md(`## seattle-weather.csv as an object`)
+
+variable(
+  function seattleWeather(data) { return data['seattle-weather.csv']() }
+)
+
+md(`## first few rows of seattle-weather.csv as a table`)
+
+variable(
+  function tableSeattleWeather(Inputs, seattleWeather) {
+    return Inputs.table(seattleWeather.slice(0, 5))
+  }
+)
+
+md(`try viewing the source`)
+</script>

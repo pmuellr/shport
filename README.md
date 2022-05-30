@@ -2,7 +2,7 @@ shport - Simple Html Pages with the Observable RunTime
 ================================================================================
 
 The [Observable Runtime][] is a JavaScript library that powers
-[Observable Notes][].  Observable Notebooks however aren't authored
+[Observable Notebooks][].  Observable Notebooks however aren't authored
 in JavaScript, but in a [JS-like language] (compiled to JS, using the Observable
 Runtime as it's core library).
 
@@ -12,7 +12,7 @@ JavaScript itself.
 We'll see!
 
 [Observable Runtime]: https://github.com/observablehq/runtime
-[Observable Notes]: https://observablehq.com/@observablehq/five-minute-introduction
+[Observable Notebooks]: https://observablehq.com/@observablehq/five-minute-introduction
 [JS-like language]: https://observablehq.com/@observablehq/observables-not-javascript
 
 
