@@ -1,5 +1,4 @@
 <head>
-<title>shport examples</title>
 <link rel="shortcut icon" href="../images/shport.png">
 </head>
 
@@ -8,7 +7,12 @@
 <script type="module">
 import { md } from '../shport.js'
 
+const title = 'shport examples'
+document.title = title
+
 const examples = [
+  'index',
+  'taste',
   'vega-lite',
 ]
 
@@ -17,9 +21,9 @@ const examplesHtml = examples
   .join('\n')
 
 md(`
-  # shport examples
+# ${title}
 
-  ${examplesHtml}
+${examplesHtml}
 `)
 
 </script>

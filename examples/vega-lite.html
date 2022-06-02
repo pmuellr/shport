@@ -1,5 +1,5 @@
+<html lang="en">
 <head>
-<title>using vega-lite with shport</title>
 <link rel="shortcut icon" href="../images/shport.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@3.2.4/dist/inspector.css">
 <script src="https://cdn.jsdelivr.net/npm/vega@5.22.1/build/vega.js"></script>
@@ -10,12 +10,15 @@
 <body></body>
 
 <script type="module">
-import { variable, viewOf, md, html } from '../shport.js'
+import { variable, viewOf, md, html, hide, show } from '../shport.js'
 const vegaEmbed = window.vegaEmbed
 
+const title = 'using vega-lite with shport'
+
+document.title = title
 md(`
-  # using vega-lite with shport
-  from [Vega-Lite - A Grammar of Interactive Graphics](https://vega.github.io/vega-lite/)
+# ${title}
+from [Vega-Lite - A Grammar of Interactive Graphics](https://vega.github.io/vega-lite/)
 `)
 
 viewOf(function topic(Inputs) {
@@ -25,10 +28,7 @@ viewOf(function topic(Inputs) {
   )
 })
 
-variable((md, topic) => {
-  const result = md`chart for ${topic}`
-  return result
-})
+variable((md, topic) => md`chart for ${topic}`)
 
 variable(
   /** @type { (vegaLiteSpec: ReturnType<VegaLiteSpec>) => HTMLElement } */
@@ -41,9 +41,9 @@ md(`------------------------------------------------------------------------`)
 
 html(`<h2>vega lite spec</h2>`)
 
-/** @typedef { (seattleWeather: any, topic: string) => Record<string, any> } VegaLiteSpec */
-/** @type { VegaLiteSpec } */
 variable(
+  /** @typedef { (seattleWeather: any, topic: string) => Record<string, any> } VegaLiteSpec */
+  /** @type { VegaLiteSpec } */
   function vegaLiteSpec(seattleWeather, topic) {
     return {
       title: `${topic} in Seattle`,
@@ -57,11 +57,13 @@ variable(
   }
 )
 
+// hide the generated cells below, only needed for debugging
+hide()
 md(`## all data available`)
-
 variable(
   async function data(require) { return await require('vega-datasets@1') }
 )
+show()
 
 md(`## seattle-weather.csv as an object`)
 
@@ -79,3 +81,4 @@ variable(
 
 md(`try viewing the source`)
 </script>
+</html>

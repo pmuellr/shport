@@ -1,0 +1,43 @@
+<html lang="en">
+<head>
+<link rel="shortcut icon" href="../images/shport.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@3.2.4/dist/inspector.css">
+</head>
+
+<body></body>
+
+<script type="module">
+import { variable, viewOf, md, html, hide, show } from '../shport.js'
+
+const title = 'a taste of shport'
+
+document.title = title
+md(`
+# ${title}
+_modelled off of [A Taste of Observable](https://observablehq.com/@observablehq/a-taste-of-observable?collection=@observablehq/getting-started)_
+`)
+
+md(`
+Hello and welcome to shport! 👋  Here we'll show you the basics of shport, cover a few key concepts, and get you started.
+
+**What you are reading now—this page or document—is a shport page.**
+
+A shport page is both a final product for presentation, and a large blank canvas for trying out ideas and calculations. How do you start? By creating cells. Cells are where you place content—text, JavaScript code, or other instructions.
+`)
+
+variable(function A_sample_JavaScript_cell_yielding_a_result() { return 22/7})
+
+md(`
+**shport pages are made of cells**. Another sample:
+
+"Hello, I am a *Markdown* cell; I contain *formatted* **text**.
+`)
+
+md(`-------------------------------------------------------------------`)
+md(`# WORK IN PROGRESS ...`)
+
+variable(function data(FileAttachment) { return FileAttachment("./athletes.csv").csv({typed: true}) })
+
+variable((Inputs, data) => Inputs.table(data))
+</script>
+</html>

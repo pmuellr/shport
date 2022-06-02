@@ -3,14 +3,30 @@ import { Runtime, Inspector, Library } from 'https://cdn.jsdelivr.net/npm/@obser
 
 const library = {
   ...new Library(),
+  FileAttachment: fileAttachmentReplacement,
 }
 const runtime = new Runtime(library)
   
 const inspectorFactory = Inspector.into('body')
 const modjewel = runtime.module()
 
-/** @type { (f: any) => void } */
+let hidden = false
+
+function fileAttachmentReplacement (uri) {
+  return runtime.fileAttachments((s) => s)
+}
+
+export function hide() {
+  hidden = true
+}
+
+export function show() {
+  hidden = false
+}
+
 export function variable(f) {
+  if (f == null) throw new Error('variable() requires a non-null argument')
+
   const params = []
   if (typeof f === 'function') {
     params.push(...getFnParams(f))
@@ -18,7 +34,8 @@ export function variable(f) {
 
   const name = f.name || null
 
-  const varjewel = modjewel.variable(inspectorFactory())
+  const inspector = hidden ? undefined : inspectorFactory()
+  const varjewel = modjewel.variable(inspector)
   varjewel.define(name, params, f)
 }
 
