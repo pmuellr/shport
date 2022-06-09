@@ -1,19 +1,21 @@
 // @ts-ignore
-import { Runtime, Inspector, Library } from 'https://cdn.jsdelivr.net/npm/@observablehq/runtime@4.18.7/dist/runtime.js'
+import { Runtime, Inspector, Library } from '@observablehq/runtime'
 
-const library = {
+export const library = {
   ...new Library(),
   FileAttachment: fileAttachmentReplacement,
 }
-const runtime = new Runtime(library)
+
+export const runtime = new Runtime(library)
   
 const inspectorFactory = Inspector.into('body')
 const modjewel = runtime.module()
 
 let hidden = false
 
+/** @type { (uri: string) => any } */
 function fileAttachmentReplacement (uri) {
-  return runtime.fileAttachments((s) => s)
+  return runtime.fileAttachments(s => s)
 }
 
 export function hide() {
@@ -24,6 +26,7 @@ export function show() {
   hidden = false
 }
 
+/** @type { (f: any) => void } */
 export function variable(f) {
   if (f == null) throw new Error('variable() requires a non-null argument')
 
@@ -57,14 +60,23 @@ export function viewOf(f) {
 }
 
 /** @type { (s: string) => void } */
-export function md(s) {
-    variable((md) => md`${s}`)
-}
+export function md(s) { variable((md) => md`${s}`) }
 
 /** @type { (s: string) => void } */
-export function html(s) {
-    variable((html) => html`${s}`)
+export function html(s) { variable((html) => html`${s}`) }
+
+/** @type { (s: string) => void } */
+export function svg(s) { variable((svg) => svg`${s}`) }
+
+/** @type { (s: string) => void } */
+export function tex(s) { variable((tex) => tex`${s}`) }
+
+tex.block = function tex_block(s) {
+  variable((tex) => tex.block`${s}`)
 }
+
+/** @type { (...args: string[]) => any } */
+export const require = library.require
 
 /** @type { (fn: Function) => string[] } */
 function getFnParams (fn) {

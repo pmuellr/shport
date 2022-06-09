@@ -1,17 +1,21 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <link rel="shortcut icon" href="../images/shport.png">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@3.2.4/dist/inspector.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@3.2.2/dist/inspector.css">
+<script type="importmap"> { "imports": {
+  "shport": "https://pmuellr.github.io/shport/shport.js",
+  "@observablehq/runtime": "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4.21.1/dist/runtime.js"
+}}</script>
 </head>
-
 <body></body>
-
 <script type="module">
-import { variable, viewOf, md, html, hide, show } from '../shport.js'
+
+import { variable, viewOf, md, html, svg, tex, hide, show } from '../shport.js'
 
 const title = 'a taste of shport'
-
 document.title = title
+
 md(`
 # ${title}
 _modelled off of [A Taste of Observable](https://observablehq.com/@observablehq/a-taste-of-observable?collection=@observablehq/getting-started)_
@@ -20,9 +24,21 @@ _modelled off of [A Taste of Observable](https://observablehq.com/@observablehq/
 md(`
 Hello and welcome to shport! 👋  Here we'll show you the basics of shport, cover a few key concepts, and get you started.
 
-**What you are reading now—this page or document—is a shport page.**
+shport stands for **S**imple **H**tml **P**ages with **ORT**.
 
-A shport page is both a final product for presentation, and a large blank canvas for trying out ideas and calculations. How do you start? By creating cells. Cells are where you place content—text, JavaScript code, or other instructions.
+ORT stands for the [**O**bservable **r**un**t**ime][Observable Runtime].  
+This library powers the [Observable Notebooks][], which provides a 
+[JS-like language][] to script your notebook cells.
+
+shport provides the same basic capabilities, but in actual JavaScript.
+Instead of authoring in a web page, you author your JavaScript in your
+favorite text editor, like any other web page.  Learn the handful of
+functions available in the shport module, and how to organize the
+cells of your page in a \`<script>\` tag, and away you go!
+
+[Observable Runtime]: https://github.com/observablehq/runtime
+[Observable Notebooks]: https://observablehq.com/@observablehq/five-minute-introduction
+[JS-like language]: https://observablehq.com/@observablehq/observables-not-javascript
 `)
 
 variable(function A_sample_JavaScript_cell_yielding_a_result() { return 22/7})
@@ -33,11 +49,70 @@ md(`
 "Hello, I am a *Markdown* cell; I contain *formatted* **text**.
 `)
 
+md(`
+When you created that cell, you saw all of the available cell types (currently available—Observable doesn't sit still):
+
+- JavaScript cells (the default), for logic, calculations, and calls to JavaScript libraries.
+- Markdown cells
+- HTML cells, for HTML
+- TeX cells, for math formulas
+
+The most commonly used cell types are JavaScript and Markdown. Let's do some work with JavaScript cells now. (It doesn't matter if you're a JavaScript beginner; you'll see why in a moment.)
+
+Here is a JavaScript cell that displays data in a table:
+`)
+
+variable((Inputs, data) => Inputs.table(data))
+
+md(`
+That table is produced with the following variable definition:
+
+    variable((Inputs, data) => Inputs.table(data))
+
+This variable depends on the \`Inputs\` object provided by the ORT, and
+a variable named \`data\` which is defined as below:
+
+    variable(function data(FileAttachment) { 
+      return FileAttachment("./athletes.csv").csv({typed: true}) 
+    })
+`)
+
+variable(function data(FileAttachment) { 
+  return FileAttachment("./attachments/athletes.csv").csv({typed: true}) 
+})
+
+md(`
+You could also have attached an \`.xlsx\`, \`GIF\`, \`.json\`, or any
+other type of file; the File Attachments page explains all the details.
+
+After attaching a file and viewing its data in a table, the natural next
+step is to plot the data. Let's look at a scatterplot based on the
+\`athletes.csv\` data:
+`)
+
+variable((Plot, data) =>
+  Plot.plot({
+    marks: [
+      Plot.dot(data, { x: "weight", y: "height", stroke: "sex" })
+    ]
+  })
+)
+
+md(`Here's some SVG:`)
+
+svg(`
+<svg width=160 height=160>
+  <circle cx=40 cy=40 r=40></circle>
+  <circle cx=80 cy=80 r=40></circle>
+</svg>
+`)
+
+md(`Here's some TeX:`)
+
+tex(`E = mc^2`)
+
 md(`-------------------------------------------------------------------`)
 md(`# WORK IN PROGRESS ...`)
 
-variable(function data(FileAttachment) { return FileAttachment("./athletes.csv").csv({typed: true}) })
-
-variable((Inputs, data) => Inputs.table(data))
 </script>
 </html>

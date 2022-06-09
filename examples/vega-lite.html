@@ -1,21 +1,22 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <link rel="shortcut icon" href="../images/shport.png">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@3.2.4/dist/inspector.css">
-<script src="https://cdn.jsdelivr.net/npm/vega@5.22.1/build/vega.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vega-lite@5.2.0/build/vega-lite.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vega-embed@6.20.8/build/vega-embed.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@3.2.2/dist/inspector.css">
+<script type="importmap"> { "imports": {
+  "shport": "https://pmuellr.github.io/shport/shport.js",
+  "@observablehq/runtime": "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4.21.1/dist/runtime.js"
+}}</script>
 </head>
-
 <body></body>
-
 <script type="module">
+
 import { variable, viewOf, md, html, hide, show } from '../shport.js'
 const vegaEmbed = window.vegaEmbed
 
 const title = 'using vega-lite with shport'
-
 document.title = title
+
 md(`
 # ${title}
 from [Vega-Lite - A Grammar of Interactive Graphics](https://vega.github.io/vega-lite/)
@@ -32,10 +33,12 @@ variable((md, topic) => md`chart for ${topic}`)
 
 variable(
   /** @type { (vegaLiteSpec: ReturnType<VegaLiteSpec>) => HTMLElement } */
-  function chartSeattleWeather(vegaLiteSpec) {
+  function chartSeattleWeather(vegaLiteSpec, vegaEmbed) {
     return vegaEmbed.container(vegaLiteSpec)
   }
 )
+
+variable(function vegaEmbed(require) { return require('vega-embed') })
 
 md(`------------------------------------------------------------------------`)
 

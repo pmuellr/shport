@@ -1,10 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
 <link rel="shortcut icon" href="../images/shport.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@observablehq/inspector@3.2.2/dist/inspector.css">
+<script type="importmap"> { "imports": {
+  "shport": "https://pmuellr.github.io/shport/shport.js",
+  "@observablehq/runtime": "https://cdn.jsdelivr.net/npm/@observablehq/runtime@4.21.1/dist/runtime.js"
+}}</script>
 </head>
-
 <body></body>
-
 <script type="module">
+
 import { md } from '../shport.js'
 
 const title = 'shport examples'
@@ -27,3 +33,4 @@ ${examplesHtml}
 `)
 
 </script>
+</html>

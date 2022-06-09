@@ -1,0 +1,33 @@
+{
+  "name": "shport",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Simple Html Pages for the Observable RunTime",
+  "license": "MIT",
+  "author": "Patrick Mueller <pmuellr@apache.org> (https://github.com/pmuellr)",
+  "homepage": "https://github.com/pmuellr/shport",
+  "bin": {
+    "shport": "shport.js"
+  },
+  "scripts": {
+    "start": "python3 -m http.server",
+    "serve": "python3 -m http.server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pmuellr/shport.git"
+  },
+  "bugs": {
+    "url": "https://github.com/pmuellr/shport/issues"
+  },
+  "standard": {
+    "ignore": [
+      "tmp/**/*",
+      "docs/**/*"
+    ]
+  },
+  "devDependencies": {
+    "@observablehq/runtime": "^4.22.2",
+    "@observablehq/inputs": "^0.10.4"
+  }
+}
